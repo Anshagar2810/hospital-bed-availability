@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Greater Noida Hospitals Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hospitals in Greater Noida</h1>
+    <div id="map"></div>
+    <script>
+        // Initialize the map centered on Greater Noida
+        const hospitalMap = L.map('map').setView([28.4744, 77.5040], 13);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(hospitalMap);
+
+        // Hospital data: name, latitude, longitude, available beds, total beds
+        const hospitals = [
+            { name: "Green City Hospital", lat: 28.4969, lng: 77.4820, availableBeds: 30, totalBeds: 50 },
+            { name: "Kailash Hospital Ltd", lat: 28.4679, lng: 77.4977, availableBeds: 120, totalBeds: 200 },
+            { name: "Navin Hospital", lat: 28.4744, lng: 77.5040, availableBeds: 80, totalBeds: 100 },
+            { name: "Roshan Hospital", lat: 28.4770, lng: 77.5100, availableBeds: 100, totalBeds: 150 },
+            { name: "Sahdeo Hospital Pvt Ltd", lat: 28.4600, lng: 77.4800, availableBeds: 60, totalBeds: 80 },
+            { name: "Sharda Hospital", lat: 28.4560, lng: 77.5080, availableBeds: 250, totalBeds: 300 },
+            { name: "Yatharth Super Speciality Hospital", lat: 28.5000, lng: 77.5200, availableBeds: 320, totalBeds: 400 },
+            { name: "Max Multi Speciality Centre", lat: 28.4840, lng: 77.5100, availableBeds: 50, totalBeds: 70 },
+            { name: "Jaypee Hospital", lat: 28.4600, lng: 77.5000, availableBeds: 200, totalBeds: 250 },
+            { name: "Felix Hospital", lat: 28.4730, lng: 77.4900, availableBeds: 90, totalBeds: 120 },
+            { name: "Apollo Hospital", lat: 28.4800, lng: 77.5300, availableBeds: 140, totalBeds: 200 },
+            { name: "Metro Hospital", lat: 28.4700, lng: 77.5050, availableBeds: 100, totalBeds: 150 },
+            { name: "Global Hospital", lat: 28.4900, lng: 77.4950, availableBeds: 70, totalBeds: 100 },
+            { name: "Fortis Hospital", lat: 28.4500, lng: 77.4900, availableBeds: 160, totalBeds: 200 },
+            { name: "Asian Hospital", lat: 28.4650, lng: 77.4850, availableBeds: 110, totalBeds: 150 }
+        ];
+
+        // Add hospital markers to the map
+        hospitals.forEach(hospital => {
+            // Create a marker for each hospital
+            const marker = L.marker([hospital.lat, hospital.lng]).addTo(hospitalMap);
+            
+            // Bind a popup to the marker
+            marker.bindPopup(
+                `<b>${hospital.name}</b><br>` +
+                `Available Beds: ${hospital.availableBeds}<br>` +
+                `Total Beds: ${hospital.totalBeds}`
+            );
+
+            // Open popup on marker click
+            marker.on('click', function () {
+                marker.openPopup();
+            });
+        });
+
+        // Adjust map view to fit all markers
+        const bounds = L.latLngBounds(hospitals.map(h => [h.lat, h.lng]));
+        hospitalMap.fitBounds(bounds);
+    </script>
+</body>
+</html>
